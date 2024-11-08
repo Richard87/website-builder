@@ -34,11 +34,13 @@ export async function loadPage(pageUrl: string): Promise<unknown> {
 export async function savePage(pageId: string, title: string, content: unknown): Promise<Page> {
     const nav = await loadNavigation()
 
-    const { url } = await put(`page-${pageId}.json`, JSON.stringify(content), {
-        access: "public",token: process.env.BLOB_READ_WRITE_TOKEN
-    });
+    if (content) {
+        const { url } = await put(`page-${pageId}.json`, JSON.stringify(content), {
+            access: "public",token: process.env.BLOB_READ_WRITE_TOKEN
+        });
 
-    nav[pageId].url = url
+        nav[pageId].url = url
+    }
     nav[pageId].title = title
 
     await storeNaviagtion(nav)
