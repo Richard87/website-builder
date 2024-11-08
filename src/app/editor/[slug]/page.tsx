@@ -15,6 +15,8 @@ export default async function EditorPage({params}: Props){
 
     const content = page.url ? (await loadPage(page.url)) : undefined
 
+    console.log({page, content})
+
     return <>
         <PageEditor content={content} page={page} />
     </>

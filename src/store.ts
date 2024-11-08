@@ -1,5 +1,6 @@
 "use server"
 import { put } from "@vercel/blob";
+import {Value} from "@udecode/plate";
 
 export type Page = {
     id: string;
@@ -24,18 +25,19 @@ export async function loadNavigation(): Promise<Navigation> {
     return data as Navigation
 }
 
-export async function loadPage(pageUrl: string): Promise<unknown> {
+export async function loadPage(pageUrl: string): Promise<Value> {
     const response = await fetch(pageUrl)
     const data = await response.json()
 
     return data
 }
 
-export async function savePage(pageId: string, title: string, content: unknown): Promise<Page> {
+export async function savePage(pageId: string, title: string, contentJson?: string): Promise<Page> {
     const nav = await loadNavigation()
+    console.log("pageId: ", pageId)
 
-    if (content) {
-        const { url } = await put(`page-${pageId}.json`, JSON.stringify(content), {
+    if (contentJson) {
+        const { url } = await put(`page-${pageId}.json`, contentJson, {
             access: "public",token: process.env.BLOB_READ_WRITE_TOKEN
         });
 
