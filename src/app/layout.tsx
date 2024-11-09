@@ -1,5 +1,4 @@
 import type {Metadata} from "next";
-import Link from "next/link"
 import localFont from "next/font/local";
 import "./globals.css";
 import {
@@ -26,63 +25,18 @@ export const metadata: Metadata = {
     description: "Webpage build demo",
 };
 
-function getPageHref(page: Page) {
-    return page.id === "0" ? "/" : `${page.id}-${encodeURI(page.title)}`;
-}
 
-export default async function RootLayout({
-                                             children,
-                                         }: Readonly<{
+export default async function RootLayout({children}: Readonly<{
     children: React.ReactNode;
+    params: Promise<{ slug: string }>
 }>) {
-
-    const nav = await loadNavigation()
-
     return (
         <html lang="en">
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        <NavigationMenu>
-            <NavigationMenuList>
-                {nav?.map(page => {
-                    const children = nav.filter(x => x.parentId == page.id)
-                    return (
-                        <NavigationMenuItem key={page.id}>
-                            {children.length == 0 ? (
-                                <MenuLink href={getPageHref(page)} title={page.title} />
-                                ) : (<>
-                                <NavigationMenuTrigger>{page.title}</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                    {children.map(p => <MenuLink href={getPageHref(p)} key={p.id} title={p.title} />)}
-                                </NavigationMenuContent>
-                            </>)}
-                        </NavigationMenuItem>
-                    )
-                })}
-            </NavigationMenuList>
-            <NavigationMenuList>
-
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>Edit</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <MenuLink href={"/editor"} title={"Edit Navigation"} />
-                        <MenuLink href={"/editor/0-home"} title={"Edit this page"} />
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-            </NavigationMenuList>
-        </NavigationMenu>
         {children}
         </body>
         </html>
     );
 }
-
-const MenuLink = ({href, title}: {href: string, title: string}) => {
-    return(
-    <Link href={href} legacyBehavior passHref>
-        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            {title}
-        </NavigationMenuLink>
-    </Link>
-)}

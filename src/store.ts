@@ -42,7 +42,7 @@ async function loadJson<T>(key: string): Promise<T|null> {
         const blob = JSON.parse(data)
         return blob as T
     } catch (e) {
-        console.error("failed to load: " + key, e)
+        console.warn("failed to load: " + key, e)
         return null
     }
 }
@@ -51,7 +51,7 @@ export async function loadNavigation() {
     return await loadJson<Page[]>("index.json")
 }
 
-export async function loadPage(pageId: string|number): Promise<Value|null> {
+export async function loadPage(pageId: string): Promise<Value|null> {
     return await loadJson<Value>(`page-${pageId}.json`)
 }
 
