@@ -1,7 +1,20 @@
 "use server"
-import { put } from "@vercel/blob";
 import {Value} from "@udecode/plate";
 
+import {
+    PutObjectCommand,
+    GetObjectCommand,
+    S3Client,
+} from "@aws-sdk/client-s3"
+
+const S3 = new S3Client({
+    endpoint: process.env.S3_ENDPOINT as string,
+    credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY as string,
+        secretAccessKey: process.env.S3_SECRET_KEY as string,
+    },
+    region: "auto",
+})
 export type Page = {
     id: string;
     title: string;
@@ -12,40 +25,43 @@ export type Page = {
 export type Navigation = Record<string, Page>
 
 export async function storeNaviagtion(pages: Navigation) {
-    const { url } = await put('index.json', JSON.stringify(pages), {
-        access: "public",token: process.env.BLOB_READ_WRITE_TOKEN
-    });
-    return url
+    await S3.send(new PutObjectCommand({
+        Bucket: process.env.S3_BUCKET,
+        Key: "index.json",
+        Body: JSON.stringify(pages)
+    }))
 }
 
-export async function loadNavigation(): Promise<Navigation> {
-    const response = await fetch(process.env.INDEX_URL as string)
-    const data: Navigation = await response.json() as unknown as Navigation
+async function loadJson<T>(key: string): Promise<T|null> {
+    try {
+        const response = await S3.send(new GetObjectCommand({
+            Bucket: process.env.S3_BUCKET,
+            Key: key,
+        }))
 
-    return data as Navigation
-}
+        const data = await response.Body?.transformToString()
+        if (!data) return null
 
-export async function loadPage(pageUrl: string): Promise<Value> {
-    const response = await fetch(pageUrl)
-    const data = await response.json()
-
-    return data
-}
-
-export async function savePage(pageId: string, title: string, contentJson?: string): Promise<Page> {
-    const nav = await loadNavigation()
-    console.log("pageId: ", pageId)
-
-    if (contentJson) {
-        const { url } = await put(`page-${pageId}.json`, contentJson, {
-            access: "public",token: process.env.BLOB_READ_WRITE_TOKEN
-        });
-
-        nav[pageId].url = url
+        const blob = JSON.parse(data)
+        return blob as T
+    } catch (e) {
+        console.error("failed to load: " + key, e)
+        return null
     }
-    nav[pageId].title = title
+}
 
-    await storeNaviagtion(nav)
+export async function loadNavigation(): Promise<Navigation|null> {
+    return await loadJson<Navigation>("index.json")
+}
 
-    return nav[pageId]
+export async function loadPage(pageId: string): Promise<Value|null> {
+    return await loadJson<Value>(`page-${pageId}.json`)
+}
+
+export async function savePage(pageId: string, contentJson?: string) {
+    await S3.send(new PutObjectCommand({
+        Bucket: process.env.S3_BUCKET,
+        Key: `page-${pageId}.json`,
+        Body: contentJson
+    }))
 }

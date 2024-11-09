@@ -14,7 +14,7 @@ import { ToolbarButton } from "@/components/plate-ui/toolbar";
 
 type Props = {
     page: Page
-    content?: Value
+    content: Value|null
 }
 
 export function PageEditor({page, content}: Props) {
@@ -25,7 +25,7 @@ export function PageEditor({page, content}: Props) {
             <Plate editor={editor}>
 
                 <FixedToolbar>
-                    <SaveButton pageId={page.id} pageTitle={page.title} />
+                    <SaveButton pageId={page.id}  />
                     <FixedToolbarButtons/>
                 </FixedToolbar>
 
@@ -42,7 +42,7 @@ export function PageEditor({page, content}: Props) {
         </div>)
 }
 
-const SaveButton= ({pageId, pageTitle}: {pageId: string, pageTitle: string}) => {
+const SaveButton= ({pageId}: {pageId: string}) => {
     const editor = useEditorRef();
-    return <ToolbarButton onClick={() => savePage(pageId, pageTitle, JSON.stringify(editor.children)).then(console.log)}>Save</ToolbarButton>
+    return <ToolbarButton onClick={() => savePage(pageId, JSON.stringify(editor.children)).then(console.log)}>Save</ToolbarButton>
 }
