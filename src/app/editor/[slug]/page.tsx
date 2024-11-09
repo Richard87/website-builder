@@ -8,12 +8,13 @@ export default async function EditorPage({params}: Props){
     const slug = (await params).slug
     const pageId = slug.substring(0, slug.indexOf("-"))
     const navigation = await loadNavigation()
-    const page = navigation?.[pageId]
-    if (!page) {
+    console.log(navigation)
+    const page = navigation?.find(x => x.id === pageId)
+
+    const content = await loadPage(pageId)
+    if (!content || !page) {
         return notFound()
     }
-
-    const content = await loadPage(page.id)
 
     console.log({page, content})
 

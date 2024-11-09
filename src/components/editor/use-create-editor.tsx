@@ -22,7 +22,7 @@ import {HeadingPlugin} from "@udecode/plate-heading/react";
 import {IndentPlugin} from "@udecode/plate-indent/react";
 import {HEADING_KEYS} from "@udecode/plate-heading";
 
-export const useCreateEditor = (content: string | Value | undefined) => {
+export const useCreateEditor = (content: string | Value | undefined | null) => {
     return usePlateEditor({
         override: {
             // Default styles in globals.css
@@ -67,6 +67,6 @@ export const useCreateEditor = (content: string | Value | undefined) => {
             NodeIdPlugin,
             DndPlugin.configure({options: {enableScroller: true}}),
         ],
-        value: content,
+        value: content ?? undefined,
     });
 };

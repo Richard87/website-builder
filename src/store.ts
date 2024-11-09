@@ -18,13 +18,10 @@ const S3 = new S3Client({
 export type Page = {
     id: string;
     title: string;
-    url?: string;
-    parentId?: string;
+    parentId?: string|null;
 }
 
-export type Navigation = Record<string, Page>
-
-export async function storeNaviagtion(pages: Navigation) {
+export async function storeNaviagtion(pages: Page[]) {
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
         Key: "index.json",
@@ -50,11 +47,11 @@ async function loadJson<T>(key: string): Promise<T|null> {
     }
 }
 
-export async function loadNavigation(): Promise<Navigation|null> {
-    return await loadJson<Navigation>("index.json")
+export async function loadNavigation() {
+    return await loadJson<Page[]>("index.json")
 }
 
-export async function loadPage(pageId: string): Promise<Value|null> {
+export async function loadPage(pageId: string|number): Promise<Value|null> {
     return await loadJson<Value>(`page-${pageId}.json`)
 }
 

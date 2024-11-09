@@ -5,6 +5,7 @@ export default async function NavigationEditorPage() {
     const navigation = await loadNavigation();
 
     return <><h1>Nav editor</h1>
-       <NavigationEditor nav={navigation} />
+        <hr/>
+       <NavigationEditor nav={navigation || []} />
     </>
 }
