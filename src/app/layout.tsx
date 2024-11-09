@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     description: "Webpage build demo",
 };
 
+function getPageHref(page: Page) {
+    return page.id === "0" ? "/" : `${page.id}-${encodeURI(page.title)}`;
+}
+
 export default async function RootLayout({
                                              children,
                                          }: Readonly<{
@@ -46,11 +50,11 @@ export default async function RootLayout({
                     return (
                         <NavigationMenuItem key={page.id}>
                             {children.length == 0 ? (
-                                <MenuLink href={page.id === "0" ? "/" : `${page.id}-${encodeURI(page.title)}`} title={page.title} />
+                                <MenuLink href={getPageHref(page)} title={page.title} />
                                 ) : (<>
                                 <NavigationMenuTrigger>{page.title}</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    {children.map(p => <MenuLink href={p.id === "0" ? "/" : `${p.id}-${encodeURI(p.title)}` } key={p.id} title={p.title} />)}
+                                    {children.map(p => <MenuLink href={getPageHref(p)} key={p.id} title={p.title} />)}
                                 </NavigationMenuContent>
                             </>)}
                         </NavigationMenuItem>
