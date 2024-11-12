@@ -21,8 +21,8 @@ import Button from '@mui/material/Button';
 
 type Props = PropsWithChildren<{
     nav: Page[]
-    currentPageId: string
-    currentPageTitle: string
+    currentPageId?: string
+    currentPageTitle?: string
 }>
 
 const drawerWidth = 240;
@@ -57,6 +57,7 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                         </ListItemButton>
                     </Link>
                 </ListItem>
+                {currentPageId && currentPageTitle && (
                 <ListItem disablePadding>
                     <Link passHref href={`/editor/${currentPageId}-${encodeURI(currentPageTitle)}`} >
                         <ListItemButton sx={{ textAlign: 'center' }}>
@@ -64,6 +65,7 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                         </ListItemButton>
                     </Link>
                 </ListItem>
+                )}
             </List>
         </Box>
     );
@@ -99,14 +101,16 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                         ))}
                         <Link passHref href={"/editor"} >
                             <Button sx={{ color: '#fff' }}>
-                                <ListItemText primary={"Edit Nav"} />
+                                Edit Nav
                             </Button>
                         </Link>
+                        {currentPageId && currentPageTitle && (
                         <Link passHref href={`/editor/${currentPageId}-${encodeURI(currentPageTitle)}`} >
-                            <Button sx={{ color: '#fff' }}>
-                                <ListItemText primary={"Edit this page"} />
+                            <Button sx={{ color: '#fff' }} color={"secondary"} variant={"contained"}>
+                                Edit page
                             </Button>
                         </Link>
+                        )}
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -136,5 +140,5 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
 
 
 function getPageHref(page: Page) {
-    return page.id === "0" ? "/" : `${page.id}-${encodeURI(page.text)}`;
+    return page.id === "0" ? "/" : `/${page.id}-${encodeURI(page.text)}`;
 }

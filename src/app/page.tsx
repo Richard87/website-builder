@@ -1,17 +1,23 @@
 import {loadNavigation, loadPage} from "@/store";
 import {Content} from "@/app/Content";
 import {Menu} from "@/menu";
-import {notFound} from "next/navigation";
+import {NotFound} from "@/notFound";
 
 export default async function Home() {
     const nav = await loadNavigation()
-    let page = nav?.[0];
+    if (!nav) throw new Error("could not find navigation")
 
-    if (!page || !nav) return notFound()
+    let page = nav[0];
+
+    if (!page) {
+        return <Menu nav={nav}><NotFound /></Menu>
+    }
 
     const blob = await loadPage(page?.id)
 
-    if (!blob) return notFound()
+    if (!blob) {
+        return <Menu nav={nav} currentPageId={page.id} currentPageTitle={page.text}><NotFound/></Menu>
+    }
 
     return (
         <Menu nav={nav} currentPageId={"0"} currentPageTitle={page.text}>

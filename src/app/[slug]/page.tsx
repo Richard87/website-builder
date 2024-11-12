@@ -1,7 +1,7 @@
 import {Content} from "@/app/Content";
 import {loadNavigation, loadPage} from "@/store";
 import {Menu} from "@/menu";
-import {notFound} from "next/navigation";
+import {NotFound} from "@/notFound";
 
 type Props = {params: Promise<{ slug: string }>}
 
@@ -10,11 +10,16 @@ export default async function ViewPage({params,}: Props){
     const slug = (await params).slug
     const pageId = slug.substring(0, slug.indexOf("-"))
     const navigation = await loadNavigation()
-    const page = navigation?.find(x => x.id === pageId)
-    const blob = await loadPage(pageId)
+    if (!navigation) throw new Error("could not find navigation")
 
-    if (!blob || !page || !navigation) {
-        return notFound()
+    const page = navigation.find(x => x.id === pageId)
+    if (!page) {
+        return <Menu nav={navigation}><NotFound/></Menu>
+    }
+
+    const blob = await loadPage(pageId)
+    if (!blob) {
+        return <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}><NotFound/></Menu>
     }
 
     return <Menu nav={navigation} currentPageId={pageId} currentPageTitle={page.text}>

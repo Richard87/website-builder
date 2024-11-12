@@ -1,8 +1,7 @@
 'use client'
 import {Page, savePage} from "@/store";
 import {StarterKit} from "@tiptap/starter-kit";
-import {JSONContent, useEditor} from "@tiptap/react";
-import { RichTextEditorProvider } from "mui-tiptap";
+import {JSONContent} from "@tiptap/react";
 import {
     MenuButtonBold,
     MenuButtonItalic,
@@ -13,11 +12,8 @@ import {
     type RichTextEditorRef,
 } from "mui-tiptap";
 import {useRef} from "react";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import {MenuButton} from "@mui/base";
+import Button from "@mui/material/Button";;
 import Box from "@mui/material/Box";
-import {Menu} from "@/menu";
 
 type Props = {
     nav: Page[]
@@ -32,8 +28,7 @@ export function PageEditor({page, content, nav}: Props) {
     }
 
     return(
-        <Menu nav={nav} currentPageId={page.id} currentPageTitle={page.text}>
-        <Box>
+        <Box sx={{ display: "block", width: "100%" }}>
             <RichTextEditor
                 immediatelyRender={false}
                 ref={rteRef}
@@ -54,6 +49,5 @@ export function PageEditor({page, content, nav}: Props) {
                 )}
             />
         </Box>
-        </Menu>
     )
 }

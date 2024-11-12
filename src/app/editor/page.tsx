@@ -4,10 +4,11 @@ import {Menu} from "@/menu";
 
 export default async function NavigationEditorPage() {
     const navigation = await loadNavigation();
+    if (!navigation) throw new Error("could not find navigation")
 
-    return <Menu nav={navigation ?? []} currentPageId={"editor"} currentPageTitle={"editor"}>
+    return <Menu nav={navigation}>
         <h1>Nav editor</h1>
         <hr/>
-       <NavigationEditor nav={navigation || []} />
+       <NavigationEditor nav={navigation} />
     </Menu>
 }

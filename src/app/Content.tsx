@@ -12,6 +12,7 @@ export const Content = ({content}: {content:JSONContent|null}) => {
             <RichTextReadOnly
                 extensions={[StarterKit]}
                 content={content}
+                immediatelyRender={false}
             />
         </Box>
     )
