@@ -1,48 +1,59 @@
 'use client'
 import {Page, savePage} from "@/store";
-import {useCreateEditor} from "@/components/editor/use-create-editor";
-import {Plate, useEditorRef} from "@udecode/plate-common/react";
-import {Editor, EditorContainer} from "@/components/plate-ui/editor";
-import {Value} from "@udecode/plate";
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {DndProvider} from "react-dnd";
-import {FixedToolbar} from "@/components/plate-ui/fixed-toolbar";
-import {FixedToolbarButtons} from "@/components/plate-ui/fixed-toolbar-buttons";
-import {FloatingToolbar} from "@/components/plate-ui/floating-toolbar";
-import {FloatingToolbarButtons} from "@/components/plate-ui/floating-toolbar-buttons";
-import { ToolbarButton } from "@/components/plate-ui/toolbar";
+import {StarterKit} from "@tiptap/starter-kit";
+import {JSONContent, useEditor} from "@tiptap/react";
+import { RichTextEditorProvider } from "mui-tiptap";
+import {
+    MenuButtonBold,
+    MenuButtonItalic,
+    MenuControlsContainer,
+    MenuDivider,
+    MenuSelectHeading,
+    RichTextEditor,
+    type RichTextEditorRef,
+} from "mui-tiptap";
+import {useRef} from "react";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import {MenuButton} from "@mui/base";
+import Box from "@mui/material/Box";
+import {Menu} from "@/menu";
 
 type Props = {
+    nav: Page[]
     page: Page
-    content: Value|null
+    content: JSONContent|null
 }
 
-export function PageEditor({page, content}: Props) {
-    const editor = useCreateEditor(content || `<h1>${page.title}</h1><p>Content</p>`);
+export function PageEditor({page, content, nav}: Props) {
+    const rteRef = useRef<RichTextEditorRef>(null);
+    const onSave = async () => {
+        await savePage(page.id, JSON.stringify(rteRef.current?.editor?.getJSON()))
+    }
+
     return(
-        <div className="h-screen w-full" data-registry="plate">
-            <DndProvider backend={HTML5Backend}>
-            <Plate editor={editor}>
+        <Menu nav={nav} currentPageId={page.id} currentPageTitle={page.text}>
+        <Box>
+            <RichTextEditor
+                immediatelyRender={false}
+                ref={rteRef}
+                extensions={[StarterKit]} // Or any Tiptap extensions you wish!
+                content={content ??  `<p>${page.text}</p>`} // Initial content for the editor
+                // Optionally include `renderControls` for a menu-bar atop the editor:
+                renderControls={() => (
+                    <MenuControlsContainer>
+                        <MenuSelectHeading />
+                        <MenuDivider />
+                        <MenuButtonBold />
+                        <MenuButtonItalic />
+                        <MenuDivider />
+                        <Button onClick={onSave}>Save</Button>
 
-                <FixedToolbar>
-                    <SaveButton pageId={page.id}  />
-                    <FixedToolbarButtons/>
-                </FixedToolbar>
-
-                <EditorContainer id="scroll_container" variant="demo">
-                    <Editor variant="demo" placeholder="Type..." />
-                </EditorContainer>
-
-
-                <FloatingToolbar>
-                    <FloatingToolbarButtons />
-                </FloatingToolbar>
-            </Plate>
-            </DndProvider>
-        </div>)
-}
-
-const SaveButton= ({pageId}: {pageId: string}) => {
-    const editor = useEditorRef();
-    return <ToolbarButton onClick={() => savePage(pageId, JSON.stringify(editor.children)).then(console.log)}>Save</ToolbarButton>
+                        {/* Add more controls of your choosing here */}
+                    </MenuControlsContainer>
+                )}
+            />
+        </Box>
+        </Menu>
+    )
 }

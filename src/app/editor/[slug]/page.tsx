@@ -16,6 +16,6 @@ export default async function EditorPage({params}: Props){
     }
 
     return <>
-        <PageEditor content={content} page={page} />
+        <PageEditor content={content} page={page} nav={navigation} />
     </>
 }

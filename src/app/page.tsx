@@ -4,14 +4,18 @@ import {Menu} from "@/menu";
 import {notFound} from "next/navigation";
 
 export default async function Home() {
-  const nav = await loadNavigation()
-  const blob = await loadPage("0")
-  const page = nav?.find(x => x.id === "0")
-  if (!blob || !page || !nav) return notFound()
+    const nav = await loadNavigation()
+    let page = nav?.[0];
 
-  return (
-      <Menu nav={nav} currentPageId={"0"} currentPageTitle={page.title}>
-        <Content blob={blob} />
-      </Menu>
-  );
+    if (!page || !nav) return notFound()
+
+    const blob = await loadPage(page?.id)
+
+    if (!blob) return notFound()
+
+    return (
+        <Menu nav={nav} currentPageId={"0"} currentPageTitle={page.text}>
+            <Content content={blob}/>
+        </Menu>
+    );
 }

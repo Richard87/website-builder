@@ -1,11 +1,11 @@
 "use server"
-import {Value} from "@udecode/plate";
 
 import {
     PutObjectCommand,
     GetObjectCommand,
     S3Client,
 } from "@aws-sdk/client-s3"
+import {JSONContent} from "@tiptap/react";
 
 const S3 = new S3Client({
     endpoint: process.env.S3_ENDPOINT as string,
@@ -17,8 +17,8 @@ const S3 = new S3Client({
 })
 export type Page = {
     id: string;
-    title: string;
-    parentId?: string|null;
+    text: string;
+    parent: string;
 }
 
 export async function storeNaviagtion(pages: Page[]) {
@@ -51,11 +51,12 @@ export async function loadNavigation() {
     return await loadJson<Page[]>("index.json")
 }
 
-export async function loadPage(pageId: string): Promise<Value|null> {
-    return await loadJson<Value>(`page-${pageId}.json`)
+export async function loadPage(pageId: string): Promise<JSONContent|null> {
+    return await loadJson<JSONContent>(`page-${pageId}.json`)
 }
 
 export async function savePage(pageId: string, contentJson?: string) {
+    console.log("storing " + pageId)
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
         Key: `page-${pageId}.json`,

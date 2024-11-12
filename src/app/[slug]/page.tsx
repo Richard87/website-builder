@@ -17,5 +17,7 @@ export default async function ViewPage({params,}: Props){
         return notFound()
     }
 
-    return <Menu nav={navigation} currentPageId={pageId} currentPageTitle={page.title}><Content blob={blob}/></Menu>
+    return <Menu nav={navigation} currentPageId={pageId} currentPageTitle={page.text}>
+        <Content content={blob}/>
+    </Menu>
 }

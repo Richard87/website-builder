@@ -1,13 +1,7 @@
 import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import {
-    NavigationMenu, NavigationMenuContent,
-    NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger, navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu";
-import {loadNavigation, Page} from "@/store";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -35,7 +29,9 @@ export default async function RootLayout({children}: Readonly<{
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        {children}
+        <AppRouterCacheProvider>
+            {children}
+        </AppRouterCacheProvider>
         </body>
         </html>
     );
