@@ -1,8 +1,7 @@
-import {Content} from "@/app/Content";
 import {loadNavigation, loadPage} from "@/store";
 import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
-import {Container} from "@mui/material";
+import {ReadonlyEditor} from "@/app/editor/readonly-editor";
 
 type Props = {params: Promise<{ slug: string }>}
 
@@ -24,6 +23,6 @@ export default async function ViewPage({params,}: Props){
     }
 
     return <Menu nav={navigation} currentPageId={pageId} currentPageTitle={page.text}>
-        <Content content={blob}/>
+        <ReadonlyEditor content={blob}/>
     </Menu>
 }

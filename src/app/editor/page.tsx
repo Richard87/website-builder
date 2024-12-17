@@ -1,7 +1,6 @@
 import {NavigationEditor} from "@/app/editor/navigationEditor";
 import {loadNavigation} from "@/store";
 import {Menu} from "@/app/menu";
-import {Container} from "@mui/material";
 
 export default async function NavigationEditorPage() {
     const navigation = await loadNavigation();

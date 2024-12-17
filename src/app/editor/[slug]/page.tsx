@@ -1,8 +1,7 @@
 import {loadNavigation, loadPage} from "@/store";
-import {PageEditor} from "@/app/editor/[slug]/pageEditor";
 import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
-import {Container} from "@mui/material";
+import {Editor} from "@/app/editor/editor";
 
 type Props = {params: Promise<{ slug: string }>}
 
@@ -20,6 +19,10 @@ export default async function EditorPage({params}: Props){
     }
 
     return <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}>
-        <PageEditor content={content} page={page} nav={navigation}/>
+        <div className="bg-amber-100 h-full">
+            <div className="max-w-screen-lg mx-auto h-full flex flex-col">
+                <Editor pageId={page.id} content={content}/>
+            </div>
+        </div>
     </Menu>
 }

@@ -17,7 +17,7 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
     const childPages = nav.filter(x => x.parent == currentPageId)
 
     return (
-        <>
+        <div className={"h-full flex flex-col"}>
             <nav className="bg-teal-500 p-6 m-0">
                 <div className={"flex justify-between flex-wrap max-w-screen-lg m-auto"}>
                     <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -34,9 +34,10 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                             </svg>
                         </button>
                     </div>
-                    <div className={classNames("w-full block flex-grow flex-row md:flex md:items-center md:w-auto", {
-                        hidden: !isOpen,
-                    })}>
+                    <div className={classNames("w-full block flex-grow flex-row md:flex md:items-center md:w-auto",
+                        "transition-[height] duration-1000 ease-in-out ",
+                        {"hidden": !isOpen}
+                    )}>
                         <div className="flex grow flex-col">
                             {activePages.map((pageId) => {
                                 const page = nav.find(p => p.id === pageId);
@@ -87,8 +88,8 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                     </div>
                 </div>
             </nav>
-            {children}
-        </>
+            <div className="grow flex flex-col">{children}</div>
+        </div>
     );
 }
 
@@ -100,7 +101,7 @@ function getPageHref(page: Page, nav: Page[]) {
 }
 
 const useToogleOpen = (): [boolean, () => void] => {
-    const [isOpen, setIsOpen] = useState(window.innerWidth >= 960);
+    const [isOpen, setIsOpen] = useState((window?.innerWidth ?? 100) >= 960);
     useEffect(() => {
         let callback = () => window.innerWidth >= 960 && setIsOpen(false);
         window.addEventListener("resize", callback);

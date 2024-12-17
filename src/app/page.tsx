@@ -1,8 +1,7 @@
 import {loadNavigation, loadPage} from "@/store";
-import {Content} from "@/app/Content";
 import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
-import {Container} from "@mui/material";
+import {ReadonlyEditor} from "@/app/editor/readonly-editor";
 
 export default async function Home() {
     const nav = await loadNavigation()
@@ -22,7 +21,7 @@ export default async function Home() {
 
     return (
         <Menu nav={nav} currentPageId={"0"} currentPageTitle={page.text}>
-            <Content content={blob}/>
+            <ReadonlyEditor content={blob}/>
         </Menu>
     );
 }

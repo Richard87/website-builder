@@ -3,7 +3,6 @@
 import {Page, storeNaviagtion} from "@/store";
 import {ulid} from "ulid";
 import { useState} from "react";
-import Box from '@mui/material/Box';
 import {
     Tree,
     getBackendOptions,
@@ -55,7 +54,7 @@ export function NavigationEditor ({nav}: Props) {
 
     return(
         <DndProvider backend={HTML5Backend}>
-            <Box sx={{minHeight: 352, minWidth: 300}}>
+            <div className={"h-min[352] w-min[300]"}>
 
                 <DndProvider backend={MultiBackend} options={getBackendOptions()}>
                     <Tree
@@ -78,7 +77,7 @@ export function NavigationEditor ({nav}: Props) {
                 <button onClick={onAdd}>Add Page</button><br/>
                 <button onClick={onSaveNav}>Save navigation</button>
 
-            </Box>
+            </div>
         </DndProvider>
     )
 }
