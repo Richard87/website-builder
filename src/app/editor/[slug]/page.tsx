@@ -1,8 +1,8 @@
 import {loadNavigation, loadPage} from "@/store";
-import {notFound} from "next/navigation";
 import {PageEditor} from "@/app/editor/[slug]/pageEditor";
-import {Menu} from "@/menu";
-import {NotFound} from "@/notFound";
+import {Menu} from "@/app/menu";
+import {NotFound} from "@/app/notFound";
+import {Container} from "@mui/material";
 
 type Props = {params: Promise<{ slug: string }>}
 
@@ -19,9 +19,7 @@ export default async function EditorPage({params}: Props){
         return <Menu nav={[]}><NotFound /></Menu>
     }
 
-    return <>
-        <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}>
-            <PageEditor content={content} page={page} nav={navigation} />
-        </Menu>
-    </>
+    return <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}>
+        <PageEditor content={content} page={page} nav={navigation}/>
+    </Menu>
 }

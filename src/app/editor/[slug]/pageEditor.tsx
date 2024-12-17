@@ -28,8 +28,8 @@ export function PageEditor({page, content, nav}: Props) {
     }
 
     return(
-        <Box sx={{ display: "block", width: "100%" }}>
             <RichTextEditor
+                className="mui-editor"
                 immediatelyRender={false}
                 ref={rteRef}
                 extensions={[StarterKit]} // Or any Tiptap extensions you wish!
@@ -48,6 +48,5 @@ export function PageEditor({page, content, nav}: Props) {
                     </MenuControlsContainer>
                 )}
             />
-        </Box>
     )
 }

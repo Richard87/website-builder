@@ -19,7 +19,7 @@ type Props = {
 export function NavigationEditor ({nav}: Props) {
     const [pages, setPages] = useState<Page[]>(nav);
 
-    let onClick = async () => {
+    let onSaveNav = async () => {
         console.log(pages)
         await storeNaviagtion(pages)
     };
@@ -34,7 +34,17 @@ export function NavigationEditor ({nav}: Props) {
     }
 
     const onReset = async () => {
-        await storeNaviagtion([{id: ulid(), text: "Home", parent: "0"}])
+        let locatinoId = ulid();
+        await storeNaviagtion([
+            {id: ulid(), text: "Home", parent: "0"},
+            {id: ulid(), text: "About Us", parent: "0"},
+            {id: locatinoId, text: "Location", parent: "0"},
+            {id: ulid(), text: "Contact Us", parent: "0"},
+            {id: ulid(), text: "Stavanger", parent: locatinoId},
+            {id: ulid(), text: "Bergen", parent: locatinoId},
+            {id: ulid(), text: "Oslo", parent: locatinoId},
+            {id: ulid(), text: "Tormsø", parent: locatinoId},
+        ])
     }
 
     console.log(nav)
@@ -66,7 +76,7 @@ export function NavigationEditor ({nav}: Props) {
                 <button onClick={onReset}>Reset pages</button>
                 <br/>
                 <button onClick={onAdd}>Add Page</button><br/>
-                <button onClick={onClick}>Save navigation</button>
+                <button onClick={onSaveNav}>Save navigation</button>
 
             </Box>
         </DndProvider>

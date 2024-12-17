@@ -1,6 +1,7 @@
 import {NavigationEditor} from "@/app/editor/navigationEditor";
 import {loadNavigation} from "@/store";
-import {Menu} from "@/menu";
+import {Menu} from "@/app/menu";
+import {Container} from "@mui/material";
 
 export default async function NavigationEditorPage() {
     const navigation = await loadNavigation();
@@ -9,6 +10,6 @@ export default async function NavigationEditorPage() {
     return <Menu nav={navigation}>
         <h1>Nav editor</h1>
         <hr/>
-       <NavigationEditor nav={navigation} />
+        <NavigationEditor nav={navigation}/>
     </Menu>
 }
