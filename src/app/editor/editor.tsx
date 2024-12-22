@@ -15,7 +15,7 @@ const Button = ({onClick, disabled, active, children}: ButtonProps) => {
             disabled={disabled}
             className={classNames(
                 " border rounded border-white",
-                "inline-block px-4 py-2 leading-none mt-4 md:mt-0",
+                "inline-block px-4 py-2 leading-none",
                 "text-sm text-white",
                 " hover:text-teal-500 hover:bg-white hover:border-transparent  ",
                 {"font-extrabold": active, "text-teal-500": active}
@@ -34,9 +34,9 @@ const MenuBar = ({pageId}: {pageId: string }) => {
     }
 
     return (
-        <div className="bg-teal-200 flex flex-wrap">
+        <div className="bg-teal-200 flex flex-wrap gap-3">
             <Button
-                onClick={() => savePage(pageId, editor?.getHTML())}
+                onClick={() => savePage(pageId, editor?.getJSON())}
                 active
             >
                 Save
@@ -217,7 +217,7 @@ export function Editor({content, pageId}: {content: Content, pageId: string}) {
     return (
         <EditorProvider
             editorContainerProps={{ className: "h-full"}}
-            editorProps={{attributes: {classNames: "h-max"}}}
+            editorProps={{attributes: {classNames: "h-max bg-white"}}}
             slotBefore={<MenuBar pageId={pageId} />}
             extensions={extensions}
             content={content}
