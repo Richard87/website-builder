@@ -16,7 +16,7 @@ const Button = ({onClick, disabled, active, children}: ButtonProps) => {
             type="button"
             onClick={onClick}
             disabled={disabled}
-            className={classNames("btn", active ? "btn-primary" : "btn-ghost")}
+            className={classNames("btn btn-sm", active ? "btn-primary" : "btn-ghost")}
         >
             {children}
         </button>
@@ -31,7 +31,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
     }
 
     return (
-        <div className="menu menu-horizontal">
+        <div className="menu menu-horizontal menu-sm">
             <Button
                 onClick={() => savePage(pageId, editor?.getJSON())}
                 active
