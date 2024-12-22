@@ -19,7 +19,7 @@ export default async function EditorPage({params}: Props){
     }
 
     return <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}>
-        <div className="bg-amber-100 h-full">
+        <div className="h-full">
             <div className="max-w-screen-lg mx-auto h-full flex flex-col">
                 <Editor pageId={page.id} content={content}/>
             </div>
