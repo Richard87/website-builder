@@ -1,6 +1,6 @@
 'use client'
-import {Page} from "@/store";
-import {JSONContent} from "@tiptap/react";
+import type {Page} from "@/store";
+import type {JSONContent} from "@tiptap/react";
 import {Editor} from "@/app/editor/editor";
 
 type Props = {

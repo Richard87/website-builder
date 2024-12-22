@@ -24,7 +24,7 @@ export default async function RootLayout({children}: Readonly<{
     params: Promise<{ slug: string }>
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" data-theme="cupcake">
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >

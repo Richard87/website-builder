@@ -20,7 +20,7 @@ const testNav = [
 function findActivePages(nav: Page[], currentPageId?: string): string[] {
     if (!currentPageId) return []
     const currentPage = nav.find(p => p.id === currentPageId)
-    if (!currentPage || currentPage.parent == "0") return [currentPageId];
+    if (!currentPage || currentPage.parent === "0") return [currentPageId];
 
     const pages = findActivePages(nav, currentPage.parent)
     return [...pages, currentPage.id]

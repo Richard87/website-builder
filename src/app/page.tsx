@@ -7,7 +7,7 @@ export default async function Home() {
     const nav = await loadNavigation()
     if (!nav) throw new Error("could not find navigation")
 
-    let page = nav[0];
+    const page = nav[0];
 
     if (!page) {
         return <Menu nav={nav}><NotFound /></Menu>

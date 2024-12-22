@@ -1,16 +1,19 @@
 "use client"
 
 import TextStyle from '@tiptap/extension-text-style'
-import {Content, EditorProvider, useCurrentEditor} from '@tiptap/react'
+import {type Content, EditorProvider, useCurrentEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import classNames from 'classnames'
-import React from 'react'
+import type React from 'react'
 import {savePage} from "@/store";
+import {FaBold, FaCode, FaHeading, FaItalic, FaParagraph, FaStrikethrough, FaStripe} from "react-icons/fa";
+
 
 type ButtonProps = React.PropsWithChildren<{ onClick: () => unknown, disabled?: boolean, active?: boolean }>;
 const Button = ({onClick, disabled, active, children}: ButtonProps) => {
     return (
         <button
+            type="button"
             onClick={onClick}
             disabled={disabled}
             className={classNames("btn", active ? "btn-primary" : "btn-ghost")}
@@ -46,7 +49,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                     }
                     active={editor.isActive('bold')}
                 >
-                    Bold
+                    <FaBold />
                 </Button>
                 <Button
                     onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -59,7 +62,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                     }
                     active={editor.isActive('italic')}
                 >
-                    Italic
+                    <FaItalic />
                 </Button>
                 <Button
                     onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -72,7 +75,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                     }
                     active={editor.isActive('strike')}
                 >
-                    Strike
+                    <FaStrikethrough />
                 </Button>
                 <Button
                     onClick={() => editor.chain().focus().toggleCode().run()}
@@ -85,7 +88,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                     }
                     active={editor.isActive('code')}
                 >
-                    Code
+                    <FaCode />
                 </Button>
                 <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
                     Clear marks
@@ -97,13 +100,13 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                     onClick={() => editor.chain().focus().setParagraph().run()}
                     active={editor.isActive('paragraph')}
                 >
-                    Paragraph
+                    <FaParagraph />
                 </Button>
                 <Button
                     onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                     active={editor.isActive('heading', { level: 1 })}
                 >
-                    H1
+                    <FaHeading />
                 </Button>
                 <Button
                     onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}

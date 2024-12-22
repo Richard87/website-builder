@@ -1,6 +1,6 @@
 "use client"
 
-import {Page, storeNaviagtion} from "@/store";
+import {type Page, storeNaviagtion} from "@/store";
 import {ulid} from "ulid";
 import { useState} from "react";
 import {
@@ -18,7 +18,7 @@ type Props = {
 export function NavigationEditor ({nav}: Props) {
     const [pages, setPages] = useState<Page[]>(nav);
 
-    let onSaveNav = async () => {
+    const onSaveNav = async () => {
         console.log(pages)
         await storeNaviagtion(pages)
     };
@@ -33,7 +33,7 @@ export function NavigationEditor ({nav}: Props) {
     }
 
     const onReset = async () => {
-        let locatinoId = ulid();
+        const locatinoId = ulid();
         await storeNaviagtion([
             {id: ulid(), text: "Home", parent: "0"},
             {id: ulid(), text: "About Us", parent: "0"},
@@ -64,7 +64,7 @@ export function NavigationEditor ({nav}: Props) {
                         render={(node, {depth, isOpen, onToggle}) => (
                             <div style={{marginLeft: depth * 10}}>
                                 {node.droppable && (
-                                    <span onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
+                                    <span onKeyPress={onToggle} onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
                                 )}
                                 {node.text}
                             </div>
@@ -72,10 +72,10 @@ export function NavigationEditor ({nav}: Props) {
                     />
                 </DndProvider>
                 <hr />
-                <button onClick={onReset}>Reset pages</button>
+                <button type="button" onClick={onReset}>Reset pages</button>
                 <br/>
-                <button onClick={onAdd}>Add Page</button><br/>
-                <button onClick={onSaveNav}>Save navigation</button>
+                <button type="button" onClick={onAdd}>Add Page</button><br/>
+                <button type="button" onClick={onSaveNav}>Save navigation</button>
 
             </div>
         </DndProvider>
