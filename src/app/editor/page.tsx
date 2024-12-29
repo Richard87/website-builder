@@ -1,6 +1,6 @@
 import {ConfigEditor} from "@/app/editor/configEditor";
 import {NavigationEditor} from "@/app/editor/navigationEditor";
-import {Menu} from "@/app/menu";
+import {Menu} from "@/menu";
 import {loadConfig} from "@/store";
 
 export default async function NavigationEditorPage() {

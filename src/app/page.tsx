@@ -1,6 +1,6 @@
 import {ReadOnlyEditor} from "@/app/editor/editor";
-import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
+import {Menu} from "@/menu";
 import {loadConfig, loadPage} from "@/store";
 import React from "react";
 

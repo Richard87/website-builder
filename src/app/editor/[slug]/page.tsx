@@ -1,6 +1,6 @@
-import {Editor} from "@/app/editor/editor";
-import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
+import {Editor} from "@/editor";
+import {Menu} from "@/menu";
 import {loadConfig, loadPage} from "@/store";
 
 type Props = {params: Promise<{ slug: string }>}
