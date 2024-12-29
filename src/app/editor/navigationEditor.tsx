@@ -77,7 +77,6 @@ export function NavigationEditor ({config}: Props) {
                     <button type="button" className={"btn"} onClick={onAdd}>Add Page</button>
                     <button type="button" className={"btn btn-primary"} onClick={onSaveNav}>Save navigation</button>
                 </div>
-
             </div>
         </DndProvider>
     )

@@ -11,7 +11,7 @@ export function ConfigEditor({config}: {config: Config}) {
     }
     const onChangeTheme = (them: string) => {
         setTheme(them);
-        document.body.dataset.theme = them
+        document.getElementsByTagName("html")[0].dataset.theme = them
     }
 
     return <>

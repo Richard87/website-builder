@@ -29,9 +29,8 @@ export default async function RootLayout({children}: Readonly<{
     const config = await loadConfig()
 
     return (
-        <html lang="en">
+        <html lang="en" data-theme={config?.theme ?? DefaultTheme}>
         <body
-            data-theme={config?.theme ?? DefaultTheme}
             className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
         >
             {children}
