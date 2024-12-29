@@ -11,7 +11,7 @@ export default {
         require('@tailwindcss/typography'),
     ],
     safelist: [
-        'prose',
+        'prose','h-full', 'h-max', 'textarea', 'textarea-bordered', 'bg-white'
     ],
     daisyui: {
         themes: [

@@ -31,7 +31,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
     }
 
     return (
-        <div className="menu menu-horizontal menu-sm z-10">
+        <div className="menu menu-horizontal menu-sm z-10 shadow rounded-box">
             <Button
                 onClick={() => savePage(pageId, editor?.getJSON())}
                 active
@@ -90,57 +90,37 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                 >
                     <FaCode />
                 </Button>
-                <Button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-                    Clear marks
-                </Button>
-                <Button onClick={() => editor.chain().focus().clearNodes().run()}>
-                    Clear nodes
+                <Button onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}>
+                    Clear
                 </Button>
                 <div className={"dropdown"}>
-                    <div tabIndex={0} role="button" className="btn btn-sm btn-ghost">Style</div>
-                    <div className={"dropdown-content"}>
-                        <Button
-                            onClick={() => editor.chain().focus().setParagraph().run()}
-                            active={editor.isActive('paragraph')}
-                        >
-                            <FaParagraph/>
-                        </Button>
+                    <div tabIndex={0} role="button" className="btn btn-sm btn-ghost"><FaHeading/></div>
+                    <div className={"menu dropdown-content bg-base-100 w-36 rounded-box z-[1] p-2 shadow"}>
                         <Button
                             onClick={() => editor.chain().focus().toggleHeading({level: 1}).run()}
                             active={editor.isActive('heading', {level: 1})}
                         >
-                            <FaHeading/>
+                            Title
                         </Button>
                         <Button
                             onClick={() => editor.chain().focus().toggleHeading({level: 2}).run()}
                             active={editor.isActive('heading', {level: 2})}
                         >
-                            H2
+                            Heading 1
                         </Button>
                         <Button
                             onClick={() => editor.chain().focus().toggleHeading({level: 3}).run()}
                             active={editor.isActive('heading', {level: 3})}
                         >
-                            H3
+                            Heading 2
                         </Button>
                         <Button
-                            onClick={() => editor.chain().focus().toggleHeading({level: 4}).run()}
-                            active={editor.isActive('heading', {level: 4})}
+                            onClick={() => editor.chain().focus().setParagraph().run()}
+                            active={editor.isActive('paragraph')}
                         >
-                            H4
+                            Normal
                         </Button>
-                        <Button
-                            onClick={() => editor.chain().focus().toggleHeading({level: 5}).run()}
-                            active={editor.isActive('heading', {level: 5})}
-                        >
-                            H5
-                        </Button>
-                        <Button
-                            onClick={() => editor.chain().focus().toggleHeading({level: 6}).run()}
-                            active={editor.isActive('heading', {level: 6})}
-                        >
-                            H6
-                        </Button></div>
+                    </div>
                 </div>
                 <Button
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -221,8 +201,8 @@ export function Editor({content, pageId, readonly}: Props) {
         <EditorProvider
             editable={!readonly}
             immediatelyRender={false}
-            editorContainerProps={{ className: "h-full"}}
-            editorProps={{attributes: {classNames: "h-full bg-white"}}}
+            editorContainerProps={{ className: "flex flex-col flex-grow"}}
+            editorProps={{attributes: {classNames: "bg-white flex-grow", style: "height: 100%;"}}}
             slotBefore={<MenuBar pageId={pageId} />}
             extensions={extensions}
             content={content}

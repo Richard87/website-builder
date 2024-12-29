@@ -26,7 +26,7 @@ export default async function RootLayout({children}: Readonly<{
     return (
         <html lang="en" data-theme="cupcake">
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
         >
             {children}
         </body>

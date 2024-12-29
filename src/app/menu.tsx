@@ -27,8 +27,7 @@ function MenuItem({page, nav}: {page: Page, nav: Page[]}) {
 
 export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
     const topPages = nav.filter(x => x.parent === "0")
-    console.log({currentPageId, currentPageTitle})
-
+    
     return <>
         <div className="navbar bg-base-100">
             <div className="container mx-auto px-4">
@@ -72,7 +71,7 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                 </ul>
             </div>
         </div>
-        <div className="container h-full mx-auto px-4 prose">
+        <div className="container mx-auto px-4 prose flex-grow flex flex-col">
             {children}
         </div>
     </>
