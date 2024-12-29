@@ -1,15 +1,15 @@
 "use client"
 
 import {type Page, storeNaviagtion} from "@/store";
-import {ulid} from "ulid";
-import { useState} from "react";
 import {
+    MultiBackend,
     Tree,
     getBackendOptions,
-    MultiBackend,
 } from "@minoru/react-dnd-treeview";
+import { useState} from "react";
 import { DndProvider } from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import {ulid} from "ulid";
 
 type Props = {
     nav: Page[]
@@ -19,7 +19,6 @@ export function NavigationEditor ({nav}: Props) {
     const [pages, setPages] = useState<Page[]>(nav);
 
     const onSaveNav = async () => {
-        console.log(pages)
         await storeNaviagtion(pages)
     };
 
@@ -45,8 +44,6 @@ export function NavigationEditor ({nav}: Props) {
             {id: ulid(), text: "Tormsø", parent: locatinoId},
         ])
     }
-
-    console.log(nav)
 
     const handleDrop = (newTreeData: unknown[]) => {
         setPages(newTreeData as Page[])

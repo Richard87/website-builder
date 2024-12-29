@@ -20,8 +20,8 @@ export default async function EditorPage({params}: Props){
 
     return <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}>
         <div className="flex flex-col flex-grow">
-            <div className="max-w-screen-lg mx-auto flex flex-col  textarea textarea-bordered flex-grow prose mb-5">
-                <Editor readonly={false} pageId={page.id} content={content}/>
+            <div className="max-w-screen-lg mx-auto flex flex-col flex-grow prose mb-5">
+                <Editor pageId={page.id} content={content}/>
             </div>
         </div>
     </Menu>
