@@ -1,8 +1,8 @@
 "use server"
 
 import {
-    PutObjectCommand,
     GetObjectCommand,
+    PutObjectCommand,
     S3Client,
 } from "@aws-sdk/client-s3"
 import type {Content, JSONContent} from "@tiptap/react";
@@ -57,7 +57,6 @@ export async function loadPage(pageId: string): Promise<JSONContent|null> {
 
 export async function savePage(pageId: string, content?: Content) {
     const body = JSON.stringify(content,null, 2);
-    console.log(`storing ${pageId}`, body)
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
         Key: `page-${pageId}.json`,

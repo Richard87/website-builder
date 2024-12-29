@@ -1,7 +1,7 @@
-import {loadNavigation, loadPage} from "@/store";
+import {Editor} from "@/app/editor/editor";
 import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
-import {Editor} from "@/app/editor/editor";
+import {loadNavigation, loadPage} from "@/store";
 
 type Props = {params: Promise<{ slug: string }>}
 
@@ -20,8 +20,8 @@ export default async function EditorPage({params}: Props){
 
     return <Menu nav={navigation} currentPageId={page.id} currentPageTitle={page.text}>
         <div className="h-full">
-            <div className="max-w-screen-lg mx-auto h-full flex flex-col">
-                <Editor pageId={page.id} content={content}/>
+            <div className="max-w-screen-lg mx-auto h-full flex flex-col prose">
+                <Editor readonly={false} pageId={page.id} content={content}/>
             </div>
         </div>
     </Menu>

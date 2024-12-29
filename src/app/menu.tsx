@@ -70,7 +70,7 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                 </ul>
             </div>
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container h-full mx-auto px-4 prose">
             {children}
         </div>
     </>

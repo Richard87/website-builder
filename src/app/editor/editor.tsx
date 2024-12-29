@@ -1,11 +1,11 @@
 "use client"
 
+import {savePage} from "@/store";
 import TextStyle from '@tiptap/extension-text-style'
 import {type Content, EditorProvider, useCurrentEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import classNames from 'classnames'
 import type React from 'react'
-import {savePage} from "@/store";
 import {FaBold, FaCode, FaHeading, FaItalic, FaParagraph, FaStrikethrough, FaStripe} from "react-icons/fa";
 
 
@@ -31,7 +31,7 @@ const MenuBar = ({pageId}: {pageId: string }) => {
     }
 
     return (
-        <div className="menu menu-horizontal menu-sm">
+        <div className="menu menu-horizontal menu-sm z-10">
             <Button
                 onClick={() => savePage(pageId, editor?.getJSON())}
                 active
@@ -96,48 +96,52 @@ const MenuBar = ({pageId}: {pageId: string }) => {
                 <Button onClick={() => editor.chain().focus().clearNodes().run()}>
                     Clear nodes
                 </Button>
-                <Button
-                    onClick={() => editor.chain().focus().setParagraph().run()}
-                    active={editor.isActive('paragraph')}
-                >
-                    <FaParagraph />
-                </Button>
-                <Button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                    active={editor.isActive('heading', { level: 1 })}
-                >
-                    <FaHeading />
-                </Button>
-                <Button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                    active={editor.isActive('heading', { level: 2 })}
-                >
-                    H2
-                </Button>
-                <Button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                    active={editor.isActive('heading', { level: 3 })}
-                >
-                    H3
-                </Button>
-                <Button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-                    active={editor.isActive('heading', { level: 4 })}
-                >
-                    H4
-                </Button>
-                <Button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-                    active={editor.isActive('heading', { level: 5 })}
-                >
-                    H5
-                </Button>
-                <Button
-                    onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-                    active={editor.isActive('heading', { level: 6 })}
-                >
-                    H6
-                </Button>
+                <div className={"dropdown"}>
+                    <div tabIndex={0} role="button" className="btn btn-sm btn-ghost">Style</div>
+                    <div className={"dropdown-content"}>
+                        <Button
+                            onClick={() => editor.chain().focus().setParagraph().run()}
+                            active={editor.isActive('paragraph')}
+                        >
+                            <FaParagraph/>
+                        </Button>
+                        <Button
+                            onClick={() => editor.chain().focus().toggleHeading({level: 1}).run()}
+                            active={editor.isActive('heading', {level: 1})}
+                        >
+                            <FaHeading/>
+                        </Button>
+                        <Button
+                            onClick={() => editor.chain().focus().toggleHeading({level: 2}).run()}
+                            active={editor.isActive('heading', {level: 2})}
+                        >
+                            H2
+                        </Button>
+                        <Button
+                            onClick={() => editor.chain().focus().toggleHeading({level: 3}).run()}
+                            active={editor.isActive('heading', {level: 3})}
+                        >
+                            H3
+                        </Button>
+                        <Button
+                            onClick={() => editor.chain().focus().toggleHeading({level: 4}).run()}
+                            active={editor.isActive('heading', {level: 4})}
+                        >
+                            H4
+                        </Button>
+                        <Button
+                            onClick={() => editor.chain().focus().toggleHeading({level: 5}).run()}
+                            active={editor.isActive('heading', {level: 5})}
+                        >
+                            H5
+                        </Button>
+                        <Button
+                            onClick={() => editor.chain().focus().toggleHeading({level: 6}).run()}
+                            active={editor.isActive('heading', {level: 6})}
+                        >
+                            H6
+                        </Button></div>
+                </div>
                 <Button
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
                     active={editor.isActive('bulletList')}
@@ -201,20 +205,24 @@ export const extensions = [
     StarterKit.configure({
         bulletList: {
             keepMarks: true,
-            keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+            keepAttributes: true,
         },
         orderedList: {
             keepMarks: true,
-            keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+            keepAttributes: true,
         },
     }),
 ]
 
-export function Editor({content, pageId}: {content: Content, pageId: string}) {
+type Props = { content: Content, pageId: string, readonly: boolean };
+
+export function Editor({content, pageId, readonly}: Props) {
     return (
         <EditorProvider
+            editable={!readonly}
+            immediatelyRender={false}
             editorContainerProps={{ className: "h-full"}}
-            editorProps={{attributes: {classNames: "h-max bg-white"}}}
+            editorProps={{attributes: {classNames: "h-full bg-white"}}}
             slotBefore={<MenuBar pageId={pageId} />}
             extensions={extensions}
             content={content}
