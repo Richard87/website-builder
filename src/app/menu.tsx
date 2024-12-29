@@ -27,12 +27,14 @@ function MenuItem({page, nav}: {page: Page, nav: Page[]}) {
 
 export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
     const topPages = nav.filter(x => x.parent === "0")
+    console.log({currentPageId, currentPageTitle})
 
     return <>
         <div className="navbar bg-base-100">
             <div className="container mx-auto px-4">
                 <ul className="menu menu-horizontal flex-1 justify-end bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                     <li><Link href={"/"} className="btn btn-ghost text-xl">Website Builder</Link></li>
+                    <li className={"grow opacity-0"} />
 
                     {topPages.map((page: Page) => {
                         const childPages = nav.filter(x => x.parent === page.id)

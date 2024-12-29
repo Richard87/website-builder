@@ -1,7 +1,7 @@
-import {loadNavigation, loadPage} from "@/store";
+import {ReadonlyEditor} from "@/app/editor/readonly-editor";
 import {Menu} from "@/app/menu";
 import {NotFound} from "@/app/notFound";
-import {ReadonlyEditor} from "@/app/editor/readonly-editor";
+import {loadNavigation, loadPage} from "@/store";
 
 export default async function Home() {
     const nav = await loadNavigation()
@@ -20,7 +20,7 @@ export default async function Home() {
     }
 
     return (
-        <Menu nav={nav} currentPageId={"0"} currentPageTitle={page.text}>
+        <Menu nav={nav} currentPageId={page.id} currentPageTitle={page.text}>
             <ReadonlyEditor content={blob}/>
         </Menu>
     );
