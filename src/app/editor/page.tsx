@@ -1,14 +1,16 @@
+import {ConfigEditor} from "@/app/editor/configEditor";
 import {NavigationEditor} from "@/app/editor/navigationEditor";
-import {loadNavigation} from "@/store";
 import {Menu} from "@/app/menu";
+import {loadConfig} from "@/store";
 
 export default async function NavigationEditorPage() {
-    const navigation = await loadNavigation();
-    if (!navigation) throw new Error("could not find navigation")
+    const config = await loadConfig();
+    if (!config) throw new Error("could not find navigation")
 
-    return <Menu nav={navigation}>
-        <h1>Nav editor</h1>
+    return <Menu nav={config.nav}>
+        <h1>Site Configuration</h1>
+        <ConfigEditor config={config} />
         <hr/>
-        <NavigationEditor nav={navigation}/>
+        <NavigationEditor config={config}/>
     </Menu>
 }

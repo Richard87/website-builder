@@ -1,6 +1,6 @@
 "use client"
 
-import {type Page, storeNaviagtion} from "@/store";
+import {type Config, type Page, storeConfig} from "@/store";
 import {
     MultiBackend,
     Tree,
@@ -12,14 +12,14 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 import {ulid} from "ulid";
 
 type Props = {
-    nav: Page[]
+    config: Config
 }
 
-export function NavigationEditor ({nav}: Props) {
-    const [pages, setPages] = useState<Page[]>(nav);
+export function NavigationEditor ({config}: Props) {
+    const [pages, setPages] = useState<Page[]>(config.nav);
 
     const onSaveNav = async () => {
-        await storeNaviagtion(pages)
+        await storeConfig({...config, nav: pages})
     };
 
     const onAdd = () => {
@@ -33,7 +33,7 @@ export function NavigationEditor ({nav}: Props) {
 
     const onReset = async () => {
         const locatinoId = ulid();
-        await storeNaviagtion([
+        await storeConfig({...config, nav: [
             {id: ulid(), text: "Home", parent: "0"},
             {id: ulid(), text: "About Us", parent: "0"},
             {id: locatinoId, text: "Location", parent: "0"},
@@ -42,7 +42,7 @@ export function NavigationEditor ({nav}: Props) {
             {id: ulid(), text: "Bergen", parent: locatinoId},
             {id: ulid(), text: "Oslo", parent: locatinoId},
             {id: ulid(), text: "Tormsø", parent: locatinoId},
-        ])
+        ]})
     }
 
     const handleDrop = (newTreeData: unknown[]) => {
@@ -57,11 +57,14 @@ export function NavigationEditor ({nav}: Props) {
                     <Tree
                         tree={pages.map(x => ({...x, droppable: true}))}
                         rootId={"0"}
+                        enableAnimateExpand
                         onDrop={handleDrop}
                         render={(node, {depth, isOpen, onToggle}) => (
                             <div style={{marginLeft: depth * 10}}>
                                 {node.droppable && (
-                                    <span onKeyPress={onToggle} onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
+                                    <span onKeyPress={onToggle} onClick={onToggle}>
+                                        {isOpen ? "[-]" : "[+]"}
+                                    </span>
                                 )}
                                 {node.text}
                             </div>
@@ -69,10 +72,11 @@ export function NavigationEditor ({nav}: Props) {
                     />
                 </DndProvider>
                 <hr />
-                <button type="button" onClick={onReset}>Reset pages</button>
-                <br/>
-                <button type="button" onClick={onAdd}>Add Page</button><br/>
-                <button type="button" onClick={onSaveNav}>Save navigation</button>
+                <div className={"join"}>
+                    <button type="button" className={"btn"} onClick={onReset}>Reset pages</button>
+                    <button type="button" className={"btn"} onClick={onAdd}>Add Page</button>
+                    <button type="button" className={"btn btn-primary"} onClick={onSaveNav}>Save navigation</button>
+                </div>
 
             </div>
         </DndProvider>

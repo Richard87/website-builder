@@ -20,12 +20,16 @@ export type Page = {
     text: string;
     parent: string;
 }
+export type Config = {
+    nav: Page[],
+    theme?: string
+}
 
-export async function storeNaviagtion(pages: Page[]) {
+export async function storeConfig(config: Config) {
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
-        Key: "index.json",
-        Body: JSON.stringify(pages)
+        Key: "default.json",
+        Body: JSON.stringify(config, null, 2)
     }))
 }
 
@@ -47,8 +51,8 @@ async function loadJson<T>(key: string): Promise<T|null> {
     }
 }
 
-export async function loadNavigation() {
-    return await loadJson<Page[]>("index.json")
+export async function loadConfig() {
+    return await loadJson<Config>("default.json")
 }
 
 export async function loadPage(pageId: string): Promise<JSONContent|null> {

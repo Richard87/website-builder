@@ -1,6 +1,8 @@
 import type {Metadata} from "next";
 import localFont from "next/font/local";
 import './globals.css'
+import {DefaultTheme} from "@/defaults";
+import {loadConfig} from "@/store";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -23,9 +25,13 @@ export default async function RootLayout({children}: Readonly<{
     children: React.ReactNode;
     params: Promise<{ slug: string }>
 }>) {
+
+    const config = await loadConfig()
+
     return (
-        <html lang="en" data-theme="cupcake">
+        <html lang="en">
         <body
+            data-theme={config?.theme ?? DefaultTheme}
             className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
         >
             {children}
