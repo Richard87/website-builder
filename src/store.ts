@@ -5,7 +5,7 @@ import {
     PutObjectCommand,
     S3Client,
 } from "@aws-sdk/client-s3"
-import type {Content, JSONContent} from "@tiptap/react";
+import type {Content, HTMLContent, JSONContent} from "@tiptap/react";
 
 const S3 = new S3Client({
     endpoint: process.env.S3_ENDPOINT as string,
@@ -33,14 +33,22 @@ export async function storeConfig(config: Config) {
     }))
 }
 
-async function loadJson<T>(key: string): Promise<T|null> {
+async function loadBlob(key: string): Promise<string|undefined> {
     try {
         const response = await S3.send(new GetObjectCommand({
             Bucket: process.env.S3_BUCKET,
             Key: key,
         }))
+        return await response.Body?.transformToString()
+    } catch (e) {
+        console.warn(`failed to load: ${key}`, e)
+        return undefined
+    }
+}
 
-        const data = await response.Body?.transformToString()
+async function loadJson<T>(key: string): Promise<T|null> {
+    try {
+        const data = await loadBlob(key)
         if (!data) return null
 
         const blob = JSON.parse(data)
@@ -55,15 +63,14 @@ export async function loadConfig() {
     return await loadJson<Config>("default.json")
 }
 
-export async function loadPage(pageId: string): Promise<JSONContent|null> {
-    return await loadJson<JSONContent>(`page-${pageId}.json`)
+export async function loadPage(pageId: string): Promise<HTMLContent|null> {
+    return await loadBlob(`page-${pageId}.json`) as HTMLContent
 }
 
-export async function savePage(pageId: string, content?: Content) {
-    const body = JSON.stringify(content,null, 2);
+export async function savePage(pageId: string, content?: HTMLContent) {
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
         Key: `page-${pageId}.json`,
-        Body: body
+        Body: content
     }))
 }

@@ -1,14 +1,12 @@
 "use client";
 
+import PhotoNodeExtension from "@/editor-extensions/photo";
 import { savePage } from "@/store";
-import { HorizontalRule } from "@tiptap/extension-horizontal-rule";
 import TextStyle from "@tiptap/extension-text-style";
 import {
 	type Content,
-	EditorContent,
-	EditorProvider,
+	EditorContent, type HTMLContent,type JSONContent,
 	type Editor as TipTapEditor,
-	useCurrentEditor,
 	useEditor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -17,17 +15,15 @@ import type React from "react";
 import {
 	FaBold,
 	FaCode,
-	FaHeading,
+	FaHeading, FaImage,
 	FaItalic,
 	FaListOl,
 	FaListUl,
-	FaParagraph,
 	FaQuoteLeft,
 	FaRedo,
 	FaRemoveFormat,
 	FaRulerHorizontal,
 	FaStrikethrough,
-	FaStripe,
 	FaUndo,
 } from "react-icons/fa";
 
@@ -50,16 +46,16 @@ const Button = ({ onClick, disabled, active, children }: ButtonProps) => {
 };
 
 const MenuBar = ({
-	pageId,
 	editor,
-}: { pageId: string; editor: TipTapEditor | null }) => {
+	onSave
+}: { editor: TipTapEditor | null, onSave: (html: HTMLContent) => unknown }) => {
 	if (!editor) {
 		return null;
 	}
 
 	return (
 		<div className="menu menu-horizontal menu-sm z-10 shadow rounded-box">
-			<Button onClick={() => savePage(pageId, editor?.getJSON())} active>
+			<Button onClick={() => onSave(editor?.getHTML())} active>
 				Save
 			</Button>
 			<Button
@@ -151,6 +147,12 @@ const MenuBar = ({
 			>
 				<FaQuoteLeft />
 			</Button>
+			<Button
+				onClick={() => editor.chain().focus().insertPhoto().run()}
+				active={editor.isActive("photoNode")}
+			>
+				<FaImage />
+			</Button>
 			<Button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
 				<FaRulerHorizontal />
 			</Button>
@@ -182,6 +184,7 @@ export const extensions = [
 			keepAttributes: true,
 		},
 	}),
+	PhotoNodeExtension,
 ];
 
 type Props = { content: Content; pageId: string };
@@ -200,9 +203,13 @@ export function Editor({ content, pageId }: Props) {
 		},
 	});
 
+	const onSave = (html: HTMLContent) => {
+		savePage(pageId, html)
+	}
+
 	return (
 		<div className="flex flex-col flex-grow ">
-			<MenuBar pageId={pageId} editor={editor} />
+			<MenuBar onSave={onSave} editor={editor} />
 			<EditorContent editor={editor} />
 		</div>
 	);

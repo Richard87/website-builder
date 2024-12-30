@@ -1,5 +1,5 @@
-import {ReadOnlyEditor} from "@/app/editor/editor";
 import {NotFound} from "@/app/notFound";
+import {ReadOnlyEditor} from "@/editor";
 import {Menu} from "@/menu";
 import {loadConfig, loadPage} from "@/store";
 import React from "react";
