@@ -63,11 +63,12 @@ export async function loadConfig() {
     return await loadJson<Config>("default.json")
 }
 
-export async function loadPage(pageId: string): Promise<HTMLContent|null> {
-    return await loadBlob(`page-${pageId}.json`) as HTMLContent
+export async function loadPage(pageId: string): Promise<JSONContent|null> {
+    return await loadJson<JSONContent>(`page-${pageId}.json`)
 }
 
-export async function savePage(pageId: string, content?: HTMLContent) {
+export async function savePage(pageId: string, content: string) {
+
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
         Key: `page-${pageId}.json`,

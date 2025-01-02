@@ -1,6 +1,6 @@
 import {NotFound} from "@/app/notFound";
-import {ReadOnlyEditor} from "@/editor";
 import {Menu} from "@/menu";
+import {ReadOnlyEditor} from "@/readonly-editor";
 import {loadConfig, loadPage} from "@/store";
 import React from "react";
 
@@ -22,7 +22,7 @@ export default async function Home() {
 
     return (
         <Menu nav={config.nav} currentPageId={page.id} currentPageTitle={page.text}>
-            <ReadOnlyEditor pageId={page.id} content={blob} />
+            <ReadOnlyEditor content={blob} />
         </Menu>
     );
 }

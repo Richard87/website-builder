@@ -1,6 +1,6 @@
-import {ReadOnlyEditor} from "@/editor";
 import {NotFound} from "@/app/notFound";
 import {Menu} from "@/menu";
+import {ReadOnlyEditor} from "@/readonly-editor";
 import {loadConfig, loadPage} from "@/store";
 import React from "react";
 
@@ -24,6 +24,6 @@ export default async function ViewPage({params,}: Props){
     }
 
     return <Menu nav={config.nav} currentPageId={pageId} currentPageTitle={page.text}>
-        <ReadOnlyEditor pageId={page.id} content={blob} />
+        <ReadOnlyEditor content={blob} />
     </Menu>
 }

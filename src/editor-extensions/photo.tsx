@@ -55,13 +55,14 @@ const PhotoComponent = ({ node, updateAttributes, deleteNode }: NodeViewProps) =
             <img
                 src={node.attrs.src ?? WhitePixel}
                 alt="Selected" style={{height: '300px', background: "white"}} className={"w-full h[300] object-cover"}/>
-            <div className={"absolute left-0 bottom-0"}><input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                style={{display: 'none'}}
-                onChange={handleFileChange}
-            />
+            <div className={"absolute left-0 bottom-0"}>
+                <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{display: 'none'}}
+                    onChange={handleFileChange}
+                />
                 <button type={"button"} className={"btn btn-sm"} onClick={handleSelectPhoto}>Upload
                     Photo
                 </button>
@@ -100,7 +101,7 @@ const PhotoNodeExtension = Node.create({
 
     addNodeView() {
         if (this.editor.options.editable) return ReactNodeViewRenderer(PhotoComponent)
-        return ReactNodeViewRenderer(ReadOnlyPhotoComponent);
+        return ReactNodeViewRenderer(ReadOnlyPhotoComponent, {});
     },
 
     addCommands() {

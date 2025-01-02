@@ -3,6 +3,7 @@
 import PhotoNodeExtension from "@/editor-extensions/photo";
 import { savePage } from "@/store";
 import TextStyle from "@tiptap/extension-text-style";
+import {generateJSON} from "@tiptap/html"
 import {
 	type Content,
 	EditorContent, type HTMLContent,type JSONContent,
@@ -48,14 +49,21 @@ const Button = ({ onClick, disabled, active, children }: ButtonProps) => {
 const MenuBar = ({
 	editor,
 	onSave
-}: { editor: TipTapEditor | null, onSave: (html: HTMLContent) => unknown }) => {
+}: { editor: TipTapEditor | null, onSave: (content: string) => unknown }) => {
 	if (!editor) {
 		return null;
 	}
 
+	const onLocalSave = () => {
+		const content = editor?.getHTML();
+		const json: JSONContent = generateJSON(content, extensions)
+		const body = JSON.stringify(json, null, 2);
+		onSave(body)
+	}
+
 	return (
 		<div className="menu menu-horizontal menu-sm z-10 shadow rounded-box">
-			<Button onClick={() => onSave(editor?.getHTML())} active>
+			<Button onClick={onLocalSave} active>
 				Save
 			</Button>
 			<Button
@@ -203,28 +211,13 @@ export function Editor({ content, pageId }: Props) {
 		},
 	});
 
-	const onSave = (html: HTMLContent) => {
-		savePage(pageId, html)
+	const onSave = (content: string) => {
+		savePage(pageId, body)
 	}
 
 	return (
 		<div className="flex flex-col flex-grow ">
 			<MenuBar onSave={onSave} editor={editor} />
-			<EditorContent editor={editor} />
-		</div>
-	);
-}
-
-export function ReadOnlyEditor({content}: Props) {
-	const editor = useEditor({
-		extensions: extensions,
-		content: content,
-		immediatelyRender: false,
-		editable: false,
-	});
-
-	return (
-		<div className="flex flex-col flex-grow ">
 			<EditorContent editor={editor} />
 		</div>
 	);
