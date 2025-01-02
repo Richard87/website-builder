@@ -212,7 +212,7 @@ export function Editor({ content, pageId }: Props) {
 	});
 
 	const onSave = (content: string) => {
-		savePage(pageId, body)
+		savePage(pageId, content);
 	}
 
 	return (
