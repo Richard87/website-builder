@@ -68,10 +68,10 @@ export async function loadPage(pageId: string): Promise<JSONContent|null> {
 }
 
 export async function savePage(pageId: string, content: string) {
-
     await S3.send(new PutObjectCommand({
         Bucket: process.env.S3_BUCKET,
         Key: `page-${pageId}.json`,
-        Body: content
+        Body: content,
+        ContentType: 'application/json'
     }))
 }

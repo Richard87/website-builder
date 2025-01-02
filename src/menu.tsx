@@ -27,7 +27,7 @@ function MenuItem({page, nav}: {page: Page, nav: Page[]}) {
 
 export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
     const topPages = nav.filter(x => x.parent === "0")
-    
+
     return <>
         <div className="navbar bg-base-100">
             <div className="container mx-auto px-4">
@@ -38,10 +38,10 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                     {topPages.map((page: Page) => {
                         const childPages = nav.filter(x => x.parent === page.id)
                         if (childPages.length === 0) return (
-                            <li key={page.id}><Link className="btn btn-ghost hidden md:flex" href={getPageHref(page, nav)}>{page.text}</Link></li>
+                            <li key={page.id}><Link className="btn btn-ghost hidden lg:flex" href={getPageHref(page, nav)}>{page.text}</Link></li>
                         )
 
-                        return <li key={page.id} className="dropdown dropdown-end hidden md:flex">
+                        return <li key={page.id} className="dropdown dropdown-end hidden lg:flex">
                             <div tabIndex={0} role="button" className="btn btn-ghost">
                                 {page.text}
                             </div>
@@ -53,19 +53,28 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                     })}
 
 
-                    <li><Link className="btn btn-ghost" href={"/editor"}>Edit Nav</Link></li>
+                    <li><Link className="btn btn-ghost hidden lg:flex" href={"/editor"}>Edit Nav</Link></li>
                     {currentPageId && currentPageTitle && (
                         <li>
-                            <Link className="btn btn-ghost" href={`/editor/${currentPageId}-${encodeURI(currentPageTitle)}`}>Edit page</Link>
+                            <Link className="btn btn-ghost hidden lg:flex" href={`/editor/${currentPageId}-${encodeURI(currentPageTitle)}`}>Edit page</Link>
                         </li>
                     )}
 
-                    <li className={"dropdown dropdown-bottom dropdown-end md:hidden"}>
+
+
+                    <li className={"dropdown dropdown-bottom dropdown-end lg:hidden"}>
                         <div tabIndex={0} role="button" className="btn btn-ghost">
                             <FaHamburger /> Menu
                         </div>
                         <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             {topPages.map((page: Page) => <MenuItem key={page.id} page={page} nav={nav}/>)}
+
+                            <li><Link href={"/editor"}>Edit Nav</Link></li>
+                            {currentPageId && currentPageTitle && (
+                                <li>
+                                    <Link href={`/editor/${currentPageId}-${encodeURI(currentPageTitle)}`}>Edit page</Link>
+                                </li>
+                            )}
                         </ul>
                     </li>
                 </ul>

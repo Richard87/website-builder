@@ -6,7 +6,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import {generateJSON} from "@tiptap/html"
 import {
 	type Content,
-	EditorContent, type HTMLContent,type JSONContent,
+	EditorContent,type JSONContent,
 	type Editor as TipTapEditor,
 	useEditor,
 } from "@tiptap/react";
