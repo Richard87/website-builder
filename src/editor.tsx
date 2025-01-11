@@ -3,10 +3,11 @@
 import PhotoNodeExtension from "@/editor-extensions/photo";
 import { savePage } from "@/store";
 import TextStyle from "@tiptap/extension-text-style";
-import {generateJSON} from "@tiptap/html"
+import { generateJSON } from "@tiptap/html";
 import {
 	type Content,
-	EditorContent,type JSONContent,
+	EditorContent,
+	type JSONContent,
 	type Editor as TipTapEditor,
 	useEditor,
 } from "@tiptap/react";
@@ -16,7 +17,8 @@ import type React from "react";
 import {
 	FaBold,
 	FaCode,
-	FaHeading, FaImage,
+	FaHeading,
+	FaImage,
 	FaItalic,
 	FaListOl,
 	FaListUl,
@@ -48,21 +50,21 @@ const Button = ({ onClick, disabled, active, children }: ButtonProps) => {
 
 const MenuBar = ({
 	editor,
-	onSave
-}: { editor: TipTapEditor | null, onSave: (content: string) => unknown }) => {
+	onSave,
+}: { editor: TipTapEditor | null; onSave: (content: string) => unknown}) => {
 	if (!editor) {
 		return null;
 	}
 
 	const onLocalSave = () => {
 		const content = editor?.getHTML();
-		const json: JSONContent = generateJSON(content, extensions)
+		const json: JSONContent = generateJSON(content, extensions);
 		const body = JSON.stringify(json, null, 2);
-		onSave(body)
-	}
+		onSave(body);
+	};
 
 	return (
-		<div className="menu menu-horizontal menu-sm z-10 shadow rounded-box">
+		<div className={classNames("menu menu-horizontal menu-sm z-10 shadow rounded-box")}>
 			<Button onClick={onLocalSave} active>
 				Save
 			</Button>
@@ -124,13 +126,13 @@ const MenuBar = ({
 					</Button>
 				</div>
 			</div>
-            <Button
-                onClick={() =>
-                    editor.chain().focus().unsetAllMarks().clearNodes().run()
-                }
-            >
-                <FaRemoveFormat />
-            </Button>
+			<Button
+				onClick={() =>
+					editor.chain().focus().unsetAllMarks().clearNodes().run()
+				}
+			>
+				<FaRemoveFormat />
+			</Button>
 			<Button
 				onClick={() => editor.chain().focus().toggleBulletList().run()}
 				active={editor.isActive("bulletList")}
@@ -205,20 +207,20 @@ export function Editor({ content, pageId }: Props) {
 		editable: true,
 		editorProps: {
 			attributes: {
-				classNames: "bg-white textarea textarea-bordered",
-				style: "height: 100%;",
+				style: "height: 100%",
+				class: "main-container prose bg-white textarea textarea-bordered",
 			},
 		},
 	});
 
 	const onSave = (content: string) => {
 		savePage(pageId, content);
-	}
+	};
 
 	return (
-		<div className="flex flex-col flex-grow ">
-			<MenuBar onSave={onSave} editor={editor} />
+		<>
+			<div className={"container mx-auto"}><MenuBar onSave={onSave} editor={editor}/></div>
 			<EditorContent editor={editor} />
-		</div>
+		</>
 	);
 }

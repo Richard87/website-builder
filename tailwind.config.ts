@@ -12,7 +12,7 @@ export default {
     ],
     safelist: [
         'prose','h-full', 'h-max', 'textarea', 'textarea-bordered', 'bg-white',
-        'w-max', 'w-full', 'h-2/3','object-cover'
+        'w-max', 'w-full', 'h-2/3','object-cover', 'container', 'flex'
     ],
     daisyui: {
         themes: [

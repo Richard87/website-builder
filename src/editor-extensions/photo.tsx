@@ -27,7 +27,7 @@ const ReadOnlyPhotoComponent = ({node}: NodeViewProps) => {
         <NodeViewWrapper className="photo-node relative react-component">
             <img
                 src={node.attrs.src ?? WhitePixel}
-                alt="Selected" style={{height: '300px', background: "white"}} className={"w-full h[300] object-cover"}/>
+                alt="Selected" style={{height: '300px', background: "white"}} className={"w-full bleed h[300] object-cover"}/>
         </NodeViewWrapper>
     );
 }
@@ -54,7 +54,7 @@ const PhotoComponent = ({ node, updateAttributes, deleteNode }: NodeViewProps) =
         <NodeViewWrapper className="photo-node relative react-component">
             <img
                 src={node.attrs.src ?? WhitePixel}
-                alt="Selected" style={{height: '300px', background: "white"}} className={"w-full h[300] object-cover"}/>
+                alt="Selected" style={{height: '300px', background: "white", width: "100%"}} className={"object-cover"}/>
             <div className={"absolute left-0 bottom-0"}>
                 <input
                     type="file"
@@ -100,8 +100,8 @@ const PhotoNodeExtension = Node.create({
     },
 
     addNodeView() {
-        if (this.editor.options.editable) return ReactNodeViewRenderer(PhotoComponent)
-        return ReactNodeViewRenderer(ReadOnlyPhotoComponent, {});
+        if (this.editor.options.editable) return ReactNodeViewRenderer(PhotoComponent, {className: "bleed"})
+        return ReactNodeViewRenderer(ReadOnlyPhotoComponent, {className: "bleed"});
     },
 
     addCommands() {

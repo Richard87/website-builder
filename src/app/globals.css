@@ -5,3 +5,23 @@
 html, body {
     height: 100%;
 }
+
+.main-container {
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr min(736px, 100%) 1fr;
+    padding: 0;
+}
+
+.main-container > * {
+    grid-column: 2; /* Default placement: center column */
+}
+
+.main-container > .bleed {
+    grid-column: 1 / -1; /* Span all columns */
+    width: 100%; /* Ensures image scales properly */
+}
+
+.prose h1 {
+    text-align: center;
+}

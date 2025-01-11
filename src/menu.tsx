@@ -80,9 +80,7 @@ export function Menu({nav, children, currentPageTitle, currentPageId}: Props) {
                 </ul>
             </div>
         </div>
-        <div className="container mx-auto px-4 prose flex-grow flex flex-col">
-            {children}
-        </div>
+        {children}
     </>
 }
 

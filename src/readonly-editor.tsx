@@ -7,12 +7,8 @@ import type React from "react";
 
 export function ReadOnlyEditor({content}: { content: Content; }) {
 	const editor = useEditor({
-		content, extensions: extensions,editable: false,immediatelyRender: false
+		content, extensions: extensions,editable: false,immediatelyRender: false,
+		editorProps: {attributes: {class: "main-container prose "}}
 	});
-	return (
-		<div className="flex flex-col flex-grow ">
-			<EditorContent editor={editor} />
-		</div>
-)
-	;
+	return <EditorContent editor={editor} />	;
 }

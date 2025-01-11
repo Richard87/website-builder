@@ -8,9 +8,11 @@ export default async function NavigationEditorPage() {
     if (!config) throw new Error("could not find navigation")
 
     return <Menu nav={config.nav}>
-        <h1>Site Configuration</h1>
-        <ConfigEditor config={config} />
-        <hr/>
-        <NavigationEditor config={config}/>
+        <div className={" container mx-auto px-4 prose"}>
+            <h1>Site Configuration</h1>
+            <ConfigEditor config={config} />
+            <hr/>
+            <NavigationEditor config={config}/>
+        </div>
     </Menu>
 }
